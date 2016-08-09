@@ -1,9 +1,9 @@
 import string
-import timezone
 
 import redis
+from django.utils import timezone
 
-DOMAIN_NAME = 'localhost'
+DOMAIN_NAME = '127.0.0.1:8000/'
 
 
 class RedisServer(object):
@@ -21,7 +21,7 @@ class RedisServer(object):
 	def get_current_id(self):
 		return self.server.get('current.url.id')
 
-	def insert_url(self, long_url, short_url):
+	def insert_url(self, long_url=None, short_url=None):
 		self.server.set(short_url, {'long_url': long_url, 'created_at': timezone.now()})
 		url_list = self.server.get('recent_urls')
 		url_list.pop()
@@ -39,10 +39,10 @@ class Shortener(object):
 		self.base32 = {i: x for i, x in enumerate(string.ascii_lowercase)}
 		self.base32.update({x+26:x for x in xrange(10)})
 
-	def shorten(self):
+	def shorten(self, current_id=1):
 		"""Return a shortened URL."""
-		r_key = self.r.get_current_id()
-		short_url = ""
+		r_key = current_id
+		short_url = DOMAIN_NAME
 		digits = []
 		while r_key > 0:
 			remainder = r_key % 62
@@ -51,5 +51,6 @@ class Shortener(object):
 
 		for x in reversed(digits):
 			short_url += self.base32[x]
+
 
 		return short_url

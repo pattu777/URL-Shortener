@@ -15,8 +15,15 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
+from rest_framework import routers
+
+from shortener import views
 
 urlpatterns = [
 	url(r'', include('shortener.urls')),
-    url(r'^admin/', admin.site.urls),
+	url(r'admin/', admin.site.urls),
+
+	# API endpoints
+    url(r'^api/v1/urls/$', views.url_list),
+	url(r'^api/v1/urls/(?P<pk>[0-9]+)/$', views.get_url)
 ]

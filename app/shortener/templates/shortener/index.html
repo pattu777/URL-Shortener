@@ -3,5 +3,31 @@
 
 {% block content %}
 
+    <div class="shortener">
+        {% if url_list %}
+            
+            <table>
+            <thead>
+                <tr>
+                    <th style="text-align: center">Original URL</th>
+                    <th style="text-align: center">Short URL</th>
+                </tr>
+            </thead>
+            
+            <tbody>
+                {% for url in url_list %}
+                    <tr>
+                        <td>{{ url.original_url }}</td>
+                        <td style="text-align: center">{{ url.short_url }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        
+        {% else %}
+            <p class="lead">No URLs found.</p>
+            <p class="lead"><a href="{% url "shortener:new" %}">Short a new URL</a></p>
+        {% endif %}      
+    </div>
 	
 {% endblock content %}
