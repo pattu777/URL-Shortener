@@ -10,6 +10,3 @@ Front-end tool - Bootstrap, AngularJS
 Operating System - Ubuntu 16.04  
 ```
 
-### Prerequisites
-
-### Installation
